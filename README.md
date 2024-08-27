@@ -39,7 +39,7 @@ The Game Session Tracker is a Python-based application that tracks the time you 
         ├── games.json
         ├── requirements.txt
         └── README.md
-
+```
 
 ## Installation
 
@@ -106,11 +106,9 @@ The Game Session Tracker is a Python-based application that tracks the time you 
 
 7. **License**
 
-    This project is licensed under the MIT License. See the LICENSE file for more details.
+    This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
 
 
 ### How to Use This `README.md`
 1. **Place the File**: Save the content as `README.md` in the root directory of your project.
 2. **Push to GitHub**: Once the file is in place, it will be included in your next commit, and GitHub will automatically display it on your repository's main page.
-
-This `README.md` will give users and contributors clear instructions on how to set up, use, and contribute to your project.
