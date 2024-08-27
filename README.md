@@ -59,7 +59,7 @@ game_session_tracker/ │ ├── config/ │ ├── init.py │ └── 
 
         Run the main program to start tracking your gaming sessions:
 
-        ```bash
+        ```python
         python main.py
     
     2. **Check logs:**
@@ -74,7 +74,7 @@ game_session_tracker/ │ ├── config/ │ ├── init.py │ └── 
 
     To run the unit tests, use the following command:
 
-    ```bash
+    ```python
     python -m unittest discover -s tests
 
     This will execute all unit tests located in the tests directory.
