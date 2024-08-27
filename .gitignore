@@ -1,0 +1,17 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore environment variables
+.env
+
+# Ignore database file if you don't want to push it
+game_sessions.db
+
+# Ignore test database files
+*.sqlite
+
+# Ignore logs
+*.log
+
+# Ignore any other files or directories you don't want to track
