@@ -13,7 +13,32 @@ The Game Session Tracker is a Python-based application that tracks the time you 
 
 ## Project Structure
 
-game_session_tracker/ │ ├── config/ │ ├── init.py │ └── settings.py ├── database/ │ ├── init.py │ ├── connection.py │ └── sessions.py ├── tracker/ │ ├── init.py │ └── tracker.py ├── utils/ │ ├── init.py │ └── logger.py ├── tests/ │ ├── init.py │ ├── test_tracker.py │ ├── test_connection.py │ └── test_sessions.py ├── main.py ├── .env ├── games.json ├── requirements.txt └── README.md
+```plaintext
+        game_session_tracker/
+        │
+        ├── config/
+        │   ├── __init__.py
+        │   └── settings.py
+        ├── database/
+        │   ├── __init__.py
+        │   ├── connection.py
+        │   └── sessions.py
+        ├── tracker/
+        │   ├── __init__.py
+        │   └── tracker.py
+        ├── utils/
+        │   ├── __init__.py
+        │   └── logger.py
+        ├── tests/
+        │   ├── __init__.py
+        │   ├── test_tracker.py
+        │   ├── test_connection.py
+        │   └── test_sessions.py
+        ├── main.py
+        ├── .env
+        ├── games.json
+        ├── requirements.txt
+        └── README.md
 
 
 ## Installation
@@ -83,40 +108,6 @@ game_session_tracker/ │ ├── config/ │ ├── init.py │ └── 
 
     This project is licensed under the MIT License. See the LICENSE file for more details.
 
-
-### How to Use This `README.md`
-1. **Place the File**: Save the content as `README.md` in the root directory of your project.
-2. **Push to GitHub**: Once the file is in place, it will be included in your next commit, and GitHub will automatically display it on your repository's main page.
-
-This `README.md` will give users and contributors clear instructions on how to set up, use, and contribute to your project.
-
-
-
-
-
-
-All application events, including session starts and stops, are logged in the game_session_tracker.log file.
-
-Database:
-
-The session data is stored in the SQLite database specified in the .env file (game_sessions.db by default).
-
-Running Tests
-To run the unit tests, use the following command:
-
-bash
-Copy code
-python -m unittest discover -s tests
-This will execute all unit tests located in the tests directory.
-
-Contributing
-Feel free to fork this repository and submit pull requests. Contributions are welcome!
-
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-vbnet
-Copy code
 
 ### How to Use This `README.md`
 1. **Place the File**: Save the content as `README.md` in the root directory of your project.
