@@ -16,14 +16,14 @@ def create_sessions_table(cursor):
         logging.error(f"Failed to create table: {e}")
         raise
 
-def log_session(cursor, game_exe, game_name, start_time, end_time, duration):
+def log_session(cursor, exe_name, game_name, start_time, end_time, duration):
     try:
         cursor.execute('''INSERT INTO sessions (exe_name, game_name, start_time, end_time, duration)
                            VALUES (?, ?, ?, ?, ?)''',
-                       (game_exe, game_name, start_time.strftime('%Y-%m-%d %H:%M:%S'),
+                       (exe_name, game_name, start_time.strftime('%Y-%m-%d %H:%M:%S'),
                         end_time.strftime('%Y-%m-%d %H:%M:%S'), duration))
         cursor.connection.commit()
-        logging.info(f"Logged session for {game_name} from {start_time} to {end_time}. Duration: {duration:.2f} minutes.")
+        logging.info(f"Logged session for {game_name}: {duration:.2f} minutes.")
     except sqlite3.Error as e:
         logging.error(f"Failed to log session: {e}")
         raise

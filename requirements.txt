@@ -2,3 +2,8 @@ kivy
 psutil
 python-dotenv
 tqdm
+flask
+pandas
+matplotlib
+requests
+seaborn
