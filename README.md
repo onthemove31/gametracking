@@ -99,16 +99,11 @@ The Game Session Tracker is a Python-based application that tracks the time you 
 
     To run the unit tests, use the following command:
 
-    ```python
-    python -m unittest discover -s tests
+        ```python
+        python -m unittest discover -s tests
 
     This will execute all unit tests located in the tests directory.
 
 7. **License**
 
     This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
-
-
-### How to Use This `README.md`
-1. **Place the File**: Save the content as `README.md` in the root directory of your project.
-2. **Push to GitHub**: Once the file is in place, it will be included in your next commit, and GitHub will automatically display it on your repository's main page.
