@@ -1,0 +1,4 @@
+kivy
+psutil
+python-dotenv
+tqdm
