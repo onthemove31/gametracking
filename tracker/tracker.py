@@ -2,13 +2,15 @@ import datetime
 import psutil
 import time
 import os
+import json  # Add this to handle JSON files
+import requests
 from dotenv import load_dotenv
 from tracker.metadata import GameMetadataFetcher
 from database.sessions import create_sessions_table, log_session
 from database.backup import backup_database, restore_database
 
 class GameSessionTracker:
-    def __init__(self, db_connection):
+    def __init__(self, db_connection, games_file='games.json'):
         load_dotenv()  # Load environment variables from .env file
 
         self.conn = db_connection
@@ -16,12 +18,23 @@ class GameSessionTracker:
         self.active_sessions = {}
         self.db_path = 'game_sessions.db'
         self.backup_dir = 'backups'
+        self.games_file = games_file
+        self.games = self.load_games()  # Initialize the games attribute
 
         self.client_id = os.getenv('IGDB_CLIENT_ID')
         self.access_token = self.get_access_token()
         self.metadata_fetcher = GameMetadataFetcher(client_id=self.client_id, access_token=self.access_token)
 
         create_sessions_table(self.cursor)
+
+    def load_games(self):
+        # Load the games from the JSON file
+        if os.path.exists(self.games_file):
+            with open(self.games_file, 'r') as f:
+                return json.load(f)
+        else:
+            print(f"Games file {self.games_file} not found.")
+            return {}
 
     def get_access_token(self):
         client_secret = os.getenv('IGDB_CLIENT_SECRET')
@@ -86,4 +99,3 @@ class GameSessionTracker:
     def close(self):
         self.cursor.close()
         print("Database connection closed.")
-
