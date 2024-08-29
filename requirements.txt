@@ -1,9 +1,6 @@
-kivy
-psutil
-python-dotenv
-tqdm
-flask
+requests
 pandas
 matplotlib
-requests
-seaborn
+python-dotenv
+psutil
+sqlite3

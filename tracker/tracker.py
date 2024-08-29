@@ -66,6 +66,71 @@ class GameSessionTracker:
         finally:
             self.close()
 
+    def get_detailed_session_analytics(df):
+        # Calculate session distribution by time of day
+        df['hour'] = df['start_time'].dt.hour
+        session_distribution = df.groupby('hour')['duration'].sum().sort_values(ascending=False)
+
+        # Calculate weekly or monthly trends
+        df['week'] = df['start_time'].dt.isocalendar().week
+        weekly_trends = df.groupby('week')['duration'].sum().sort_values(ascending=False)
+
+        # Add more detailed analysis as needed
+        return session_distribution, weekly_trends
+
+    def analyze_gaming_habits(df):
+        # Example: Detect late-night gaming habits
+        df['hour'] = df['start_time'].dt.hour
+        late_night_sessions = df[(df['hour'] >= 22) | (df['hour'] <= 6)]
+        
+        total_late_night_hours = late_night_sessions['duration'].sum()
+        total_hours = df['duration'].sum()
+        
+        percentage_late_night = (total_late_night_hours / total_hours) * 100
+
+        # Suggest a break if necessary
+        if percentage_late_night > 20:  # Example threshold
+            print("Consider taking breaks during late-night gaming sessions.")
+        
+        return percentage_late_night
+    
+    # Function to recommend similar games
+    def recommend_games_based_on_played(df, metadata_df):
+        recommendations = []
+        for game_name in df['game_name'].unique():
+            game_metadata = fetch_game_metadata(game_name)
+            if game_metadata:
+                game_genres = game_metadata[0].get('genres', [])
+                game_developers = [company['name'] for company in game_metadata[0].get('involved_companies', [])]
+                
+                for genre in game_genres:
+                    data = f'fields name, genres, cover.url; where genres = ({genre}); limit 5;'
+                    response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=data)
+                    similar_games = response.json()
+                    for similar_game in similar_games:
+                        recommendations.append({
+                            'game_name': similar_game['name'],
+                            'genre': genre,
+                            'cover_url': similar_game['cover']['url'] if 'cover' in similar_game else None
+                        })
+
+                for developer in game_developers:
+                    data = f'fields name, involved_companies.name, cover.url; where involved_companies.name = "{developer}"; limit 5;'
+                    response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=data)
+                    similar_games = response.json()
+                    for similar_game in similar_games:
+                        recommendations.append({
+                            'game_name': similar_game['name'],
+                            'developer': developer,
+                            'cover_url': similar_game['cover']['url'] if 'cover' in similar_game else None
+                        })
+                        
+        # Removing duplicates
+        unique_recommendations = {rec['game_name']: rec for rec in recommendations}.values()
+        
+        return list(unique_recommendations)
+
+
     def check_running_games(self):
         for process in psutil.process_iter(['pid', 'name']):
             exe_name = process.info['name']
