@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telemetry Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .graph-container {
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Telemetry Dashboard</h1>
+
+    <div class="graph-container">
+        <h2>Most Played Games</h2>
+        <div>{{ graph_most_played | safe }}</div>
+    </div>
+
+    <div class="graph-container">
+        <h2>Average Session Duration per Game</h2>
+        <div>{{ graph_avg_duration | safe }}</div>
+    </div>
+
+    <div class="graph-container">
+        <h2>Average CPU Usage per Game</h2>
+        <div>{{ graph_cpu_usage | safe }}</div>
+    </div>
+
+    <div class="graph-container">
+        <h2>Average Memory Usage per Game</h2>
+        <div>{{ graph_memory_usage | safe }}</div>
+    </div>
+</body>
+</html>

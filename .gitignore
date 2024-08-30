@@ -16,3 +16,5 @@ game_sessions.db
 
 # Ignore any other files or directories you don't want to track
 .venv
+
+telemetry_service/venv
