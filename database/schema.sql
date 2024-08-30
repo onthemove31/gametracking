@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS sessions (
     game_name TEXT NOT NULL,
     start_time TEXT NOT NULL,
     end_time TEXT,
-    duration REAL
+    duration REAL,
+    UNIQUE(exe_name, start_time) ON CONFLICT REPLACE
 );
 
 CREATE TABLE IF NOT EXISTS game_progress (

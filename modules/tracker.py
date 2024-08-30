@@ -39,9 +39,12 @@ def track_game_sessions(games, update_status):
                     duration = (end_time - start_time).total_seconds() / 60.0
 
                     cursor.execute('''INSERT INTO sessions (exe_name, game_name, start_time, end_time, duration)
-                                      VALUES (?, ?, ?, ?, ?)''',
-                                   (game_exe, game_name, start_time.strftime('%Y-%m-%d %H:%M:%S'),
-                                    end_time.strftime('%Y-%m-%d %H:%M:%S'), duration))
+                                    VALUES (?, ?, ?, ?, ?)
+                                    ON CONFLICT(exe_name, start_time) DO UPDATE SET
+                                        end_time=excluded.end_time,
+                                        duration=excluded.duration''',
+                                (game_exe, game_name, start_time, end_time, duration),
+                                    end_time.strftime('%Y-%m-%d %H:%M:%S'), duration)
                     conn.commit()
 
                     current_game = None
