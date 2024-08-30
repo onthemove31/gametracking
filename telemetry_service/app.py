@@ -59,20 +59,22 @@ def index():
                                graph_cpu_usage="No data available", 
                                graph_memory_usage="No data available")
 
-    # Most Played Games
-    most_played = df['game_name'].value_counts()
-    fig_most_played = px.bar(most_played, x=most_played.index, y=most_played.values, 
-                             labels={'x': 'Game', 'y': 'Number of Sessions'}, title="Most Played Games")
-    graph_most_played = pio.to_html(fig_most_played, full_html=False)
+    # Handle different datetime formats including those with microseconds and with 'Z'
+    df['start_time'] = pd.to_datetime(df['start_time'], utc=True, errors='coerce')
+    df['end_time'] = pd.to_datetime(df['end_time'], utc=True, errors='coerce')
 
-    # Average Session Duration
-    df['start_time'] = pd.to_datetime(df['start_time'])
-    df['end_time'] = pd.to_datetime(df['end_time'])
+    # Calculate session duration
     df['session_duration'] = (df['end_time'] - df['start_time']).dt.total_seconds() / 60  # Duration in minutes
     average_duration = df.groupby('game_name')['session_duration'].mean()
     fig_avg_duration = px.bar(average_duration, x=average_duration.index, y=average_duration.values, 
                               labels={'x': 'Game', 'y': 'Average Duration (minutes)'}, title="Average Session Duration")
     graph_avg_duration = pio.to_html(fig_avg_duration, full_html=False)
+
+    # Most Played Games
+    most_played = df['game_name'].value_counts()
+    fig_most_played = px.bar(most_played, x=most_played.index, y=most_played.values, 
+                             labels={'x': 'Game', 'y': 'Number of Sessions'}, title="Most Played Games")
+    graph_most_played = pio.to_html(fig_most_played, full_html=False)
 
     # System Performance Metrics
     df['cpu_usage'] = df['system_metrics'].apply(lambda x: eval(x)['cpu'])

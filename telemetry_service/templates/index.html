@@ -8,12 +8,23 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f4f4f4;
         }
         h1 {
             text-align: center;
+            color: #333;
         }
         .graph-container {
             margin-bottom: 50px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .no-data {
+            text-align: center;
+            font-size: 1.5em;
+            color: #666;
         }
     </style>
 </head>
@@ -22,22 +33,38 @@
 
     <div class="graph-container">
         <h2>Most Played Games</h2>
-        <div>{{ graph_most_played | safe }}</div>
+        {% if graph_most_played != "No data available" %}
+            <div>{{ graph_most_played | safe }}</div>
+        {% else %}
+            <p class="no-data">{{ graph_most_played }}</p>
+        {% endif %}
     </div>
 
     <div class="graph-container">
         <h2>Average Session Duration per Game</h2>
-        <div>{{ graph_avg_duration | safe }}</div>
+        {% if graph_avg_duration != "No data available" %}
+            <div>{{ graph_avg_duration | safe }}</div>
+        {% else %}
+            <p class="no-data">{{ graph_avg_duration }}</p>
+        {% endif %}
     </div>
 
     <div class="graph-container">
         <h2>Average CPU Usage per Game</h2>
-        <div>{{ graph_cpu_usage | safe }}</div>
+        {% if graph_cpu_usage != "No data available" %}
+            <div>{{ graph_cpu_usage | safe }}</div>
+        {% else %}
+            <p class="no-data">{{ graph_cpu_usage }}</p>
+        {% endif %}
     </div>
 
     <div class="graph-container">
         <h2>Average Memory Usage per Game</h2>
-        <div>{{ graph_memory_usage | safe }}</div>
+        {% if graph_memory_usage != "No data available" %}
+            <div>{{ graph_memory_usage | safe }}</div>
+        {% else %}
+            <p class="no-data">{{ graph_memory_usage }}</p>
+        {% endif %}
     </div>
 </body>
 </html>
