@@ -1,28 +1,51 @@
 import unittest
-import pandas as pd
-from modules.analytics import get_detailed_session_analytics, analyze_gaming_habits
+import sqlite3
+import os
+from game_tracker.database import store_session, cache_game_name, get_cached_game_name
 
-class TestAnalytics(unittest.TestCase):
+class TestDatabaseModule(unittest.TestCase):
 
     def setUp(self):
-        # Sample data for testing
-        data = {
-            'game_name': ['Game A', 'Game B', 'Game C'],
-            'start_time': pd.to_datetime(['2024-08-28 14:00:00', '2024-08-29 15:00:00', '2024-08-30 16:00:00']),
-            'end_time': pd.to_datetime(['2024-08-28 15:00:00', '2024-08-29 16:00:00', '2024-08-30 17:00:00']),
-            'duration': [60, 60, 60]
-        }
-        self.df = pd.DataFrame(data)
+        # Set up in-memory databases for testing
+        self.session_conn = sqlite3.connect(':memory:')
+        self.session_cursor = self.session_conn.cursor()
+        self.session_cursor.execute('''CREATE TABLE sessions (
+                                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                       exe_name TEXT NOT NULL,
+                                       game_name TEXT NOT NULL,
+                                       start_time TEXT NOT NULL,
+                                       end_time TEXT NOT NULL,
+                                       duration REAL)''')
+        
+        self.cache_conn = sqlite3.connect(':memory:')
+        self.cache_cursor = self.cache_conn.cursor()
+        self.cache_cursor.execute('''CREATE TABLE game_cache (
+                                     exe_name TEXT PRIMARY KEY,
+                                     game_name TEXT NOT NULL)''')
 
-    def test_detailed_session_analytics(self):
-        analytics = get_detailed_session_analytics(self.df)
-        self.assertIn('session_distribution', analytics)
-        self.assertIn('weekly_trends', analytics)
-        self.assertIn('monthly_trends', analytics)
+    def test_store_session(self):
+        store_session('Cyberpunk2077.exe', 'Cyberpunk 2077', '2023-01-01 10:00:00', '2023-01-01 11:00:00', 60)
+        self.session_cursor.execute("SELECT * FROM sessions WHERE exe_name=?", ('Cyberpunk2077.exe',))
+        result = self.session_cursor.fetchone()
+        self.assertIsNotNone(result)
+        self.assertEqual(result[1], 'Cyberpunk2077.exe')
 
-    def test_analyze_gaming_habits(self):
-        late_night_percentage = analyze_gaming_habits(self.df)
-        self.assertIsInstance(late_night_percentage, float)
+    def test_cache_game_name(self):
+        cache_game_name('Cyberpunk2077.exe', 'Cyberpunk 2077')
+        self.cache_cursor.execute("SELECT * FROM game_cache WHERE exe_name=?", ('Cyberpunk2077.exe',))
+        result = self.cache_cursor.fetchone()
+        self.assertIsNotNone(result)
+        self.assertEqual(result[1], 'Cyberpunk 2077')
+
+    def test_get_cached_game_name(self):
+        cache_game_name('Cyberpunk2077.exe', 'Cyberpunk 2077')
+        game_name = get_cached_game_name('Cyberpunk2077.exe')
+        self.assertEqual(game_name, 'Cyberpunk 2077')
+
+    def tearDown(self):
+        # Close connections after each test
+        self.session_conn.close()
+        self.cache_conn.close()
 
 if __name__ == '__main__':
     unittest.main()

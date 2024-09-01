@@ -1,0 +1,28 @@
+{
+    "games": [
+        {
+            "name": "Diablo IV",
+            "exe_name": "Diablo IV.exe"
+        },
+        {
+            "name": "Dota 2",
+            "exe_name": "dota2.exe"
+        },
+        {
+            "name": "BlackMythWukong",
+            "exe_name": "b1.exe"
+        },
+        {
+            "name": "Cyberpunk 2077",
+            "exe_name": "Cyberpunk2077.exe"
+        },
+        {
+            "name": "ELDEN RING",
+            "exe_name": "eldenring.exe"
+        },
+        {
+            "name": "Skyrim Special Edition",
+            "exe_name": "SkyrimSE.exe"
+        }
+    ]
+}

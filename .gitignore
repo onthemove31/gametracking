@@ -6,7 +6,7 @@ __pycache__/
 .env
 
 # Ignore database file if you don't want to push it
-game_sessions.db
+*.db
 
 # Ignore test database files
 *.sqlite
